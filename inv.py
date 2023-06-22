@@ -40,14 +40,16 @@ def send_request(url, method):
    
 def main():
     csv_file = 'hosts.csv'
-
+    cnt=0
     with open(csv_file, 'r') as file:
         reader = csv.DictReader(file)
         for row in reader:
+            cnt=cnt+1
             host = row['\ufeff"Host"']
             path = row['Path']
             method = row['Method']
             internetfacing = row['Internet Facing']
+            print(".... parsing row " +str(cnt))
 
             if "HTTPS" in internetfacing:
                 url = f"https://{host}{path}"
