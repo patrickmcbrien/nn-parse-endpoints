@@ -6,22 +6,28 @@
 #
 # Patrick McBrien 2023
 
+#EXPECTED HEADER COLUMNS IN CSV ARE \ufeff"Host", Path, Method.
+
 import csv
 import requests
 
 def send_request(url, method):
     
+        headers = {"Content-Type": "charset=utf-8",
+                    "Transfer-Encoding": "chunked"
+                  }
+
         try:
             if method.upper() == 'GET':
-                response = requests.get(url)
+                response = requests.get(url, timeout=3)
             elif method.upper() == 'POST':
-                response = requests.post(url)
+                response = requests.post(url, timeout=3)
             elif method.upper() == 'DELETE': #untested
-                response = requests.delete(url) #untested
+                response = requests.delete(url, timeout=3) #untested
             elif method.upper() == 'PUT': #untested
-                response = requests.put(url)  #untested
+                response = requests.put(url, timeout=3) #untested
             elif method.upper() == 'PATCH': #untested
-                response = requests.patch(url)  #untested
+                response = requests.patch(url, timeout=3) #untested
             else:
             #print(f"Unsupported method: {method}")
                 return
@@ -41,12 +47,16 @@ def main():
             host = row['\ufeff"Host"']
             path = row['Path']
             method = row['Method']
+            internetfacing = row['Internet Facing']
 
-            url = f"http://{host}/{path}"
+            if "HTTPS" in internetfacing:
+                url = f"https://{host}{path}"
+            else:
+                url = f"http://{host}{path}"
             send_request(url, method)
             
-            url = f"https://{host}/{path}"
-            send_request(url, method)
+            
+            ##send_request(url, method)
             ##print(host)
             ##print(path)
 if __name__ == '__main__':
