@@ -1,8 +1,7 @@
-# Run for dev environments only as the http methods for delete/put/patch (or others) could destroy or alter data
-#
+# Run for dev environments only as the http methods for delete/put/patch could destroy or alter data
 # This has no warranties
 #
-# USING THIS SCRIPT COULD BE CONSIDERED PEN TESTING SO MAKE SURE YOU HAVE THE AUTHORITY IN WRITING
+# USING THIS SCRIPT COULD BE CONSIDERED PEN TESTING SO MAKE SURE YOU HAVE THE AUTHORITY IN
 # TO RUN THIS SCRIPT AGAINST THE ENDPOINTS IN CSV
 #
 # Patrick McBrien 2023
@@ -11,23 +10,27 @@ import csv
 import requests
 
 def send_request(url, method):
-    if method.upper() == 'GET':
-        response = requests.get(url)
-    elif method.upper() == 'POST':
-        response = requests.post(url)
-    elif method.upper() == 'DELETE': #untested
-        response = requests.delete(url) #untested
-    elif method.upper() == 'PUT': #untested
-        response = requests.put(url)  #untested
-    elif method.upper() == 'PATCH': #untested
-        response = requests.patch(url)  #untested
-    else:
-        #print(f"Unsupported method: {method}")
-        return
-
-    print("")
-    print(f"Request to {url} ({method}) returned : {response.status_code}")
-    print(response.text)
+    
+        try:
+            if method.upper() == 'GET':
+                response = requests.get(url)
+            elif method.upper() == 'POST':
+                response = requests.post(url)
+            elif method.upper() == 'DELETE': #untested
+                response = requests.delete(url) #untested
+            elif method.upper() == 'PUT': #untested
+                response = requests.put(url)  #untested
+            elif method.upper() == 'PATCH': #untested
+                response = requests.patch(url)  #untested
+            else:
+            #print(f"Unsupported method: {method}")
+                return
+            print("")
+            print(f"Request to {url} ({method}) returned : {response.status_code}")
+            print(response.text)
+        except:
+            pass
+        
    
 def main():
     csv_file = 'hosts.csv'
