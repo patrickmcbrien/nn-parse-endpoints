@@ -1,4 +1,5 @@
-# Run for dev environments only as the http methods for delete/put/patch could destroy or alter data
+# Run for dev environments only as the http methods for delete/put/patch (or others) could destroy or alter data
+#
 # This has no warranties
 #
 # USING THIS SCRIPT COULD BE CONSIDERED PEN TESTING SO MAKE SURE YOU HAVE THE AUTHORITY IN WRITING
