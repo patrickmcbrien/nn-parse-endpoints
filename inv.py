@@ -12,25 +12,33 @@ import csv
 import requests
 
 def send_request(url, method):
-    
+
+        timeout = 3
+
+        get=1
+        post=1
+        delete=0
+        put=0
+        patch=0
+        
         headers = {"Content-Type": "charset=utf-8",
                     "Transfer-Encoding": "chunked",
                     "User-Agent": "nn-inv.py API inventory script"
                   }
-
+        
         try:
-            if method.upper() == 'GET':
-                response = requests.get(url, timeout=3)
-            elif method.upper() == 'POST':
-                response = requests.post(url, timeout=3)
-            elif method.upper() == 'DELETE': #untested
-                response = requests.delete(url, timeout=3) #untested
-            elif method.upper() == 'PUT': #untested
-                response = requests.put(url, timeout=3) #untested
-            elif method.upper() == 'PATCH': #untested
-                response = requests.patch(url, timeout=3) #untested
+            if method.upper() == 'GET' and get==1:
+                response = requests.get(url, timeout=timeout)
+            elif method.upper() == 'POST' and post==1:
+                response = requests.post(url, timeout=timeout)
+            elif method.upper() == 'DELETE' and delete==1: #untested
+                response = requests.delete(url, timeout=timeout) #untested
+            elif method.upper() == 'PUT' and put==1: #untested
+                response = requests.put(url, timeout=timeout) #untested
+            elif method.upper() == 'PATCH' and patch==1: #untested
+                response = requests.patch(url, timeout=timeout) #untested
             else:
-                print(f"Unsupported method: {method}")
+                print(f"Unsupported or method turned off for : {method}")
                 return
             print(f"Request to {url} ({method}) returned : {response.status_code}")
             print(response.text)
