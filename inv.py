@@ -14,7 +14,8 @@ import requests
 def send_request(url, method):
     
         headers = {"Content-Type": "charset=utf-8",
-                    "Transfer-Encoding": "chunked"
+                    "Transfer-Encoding": "chunked",
+                    "User-Agent": "nn-inv.py API inventory script"
                   }
 
         try:
@@ -29,9 +30,8 @@ def send_request(url, method):
             elif method.upper() == 'PATCH': #untested
                 response = requests.patch(url, timeout=3) #untested
             else:
-            #print(f"Unsupported method: {method}")
+                print(f"Unsupported method: {method}")
                 return
-            print("")
             print(f"Request to {url} ({method}) returned : {response.status_code}")
             print(response.text)
         except:
@@ -56,6 +56,8 @@ def main():
             else:
                 url = f"http://{host}{path}"
             send_request(url, method)
+
+            
             
             
             ##send_request(url, method)
