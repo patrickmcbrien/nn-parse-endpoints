@@ -4,6 +4,9 @@
 # USING THIS SCRIPT COULD BE CONSIDERED PEN TESTING SO MAKE SURE YOU HAVE THE AUTHORITY IN
 # TO RUN THIS SCRIPT AGAINST THE ENDPOINTS IN CSV
 #
+#Any of these could alter data especially the DELETE/PUT/PATCH
+#
+#
 # Patrick McBrien 2023
 
 #EXPECTED HEADER COLUMNS IN CSV ARE \ufeff"Host", Path, Method.
@@ -17,9 +20,9 @@ def send_request(url, method):
 
         get=1
         post=1
-        delete=0
-        put=0
-        patch=0
+        delete=0 #set to 1 to send HTTP delete's (this could alter data)
+        put=0#set to 1 to put (this could alter data)
+        patch=0#set to 1 patch (this could alter data)
         
         headers = {"Content-Type": "charset=utf-8",
                     "Transfer-Encoding": "chunked",
@@ -44,8 +47,7 @@ def send_request(url, method):
             print(response.text)
         except:
             pass
-        
-   
+
 def main():
     csv_file = 'hosts.csv'
     cnt=0
@@ -65,11 +67,5 @@ def main():
                 url = f"http://{host}{path}"
             send_request(url, method)
 
-            
-            
-            
-            ##send_request(url, method)
-            ##print(host)
-            ##print(path)
 if __name__ == '__main__':
     main()
