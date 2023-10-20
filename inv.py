@@ -13,13 +13,14 @@
 
 import csv
 import requests
+import lxml.html
 
 def send_request(url, method):
 
         timeout = 3
 
         get=1
-        post=1
+        post=0
         delete=0 #set to 1 to send HTTP delete's (this could alter data)
         put=0#set to 1 to put (this could alter data)
         patch=0#set to 1 patch (this could alter data)
@@ -44,7 +45,14 @@ def send_request(url, method):
                 print(f"Unsupported or method turned off for : {method}")
                 return
             print(f"Request to {url} ({method}) returned : {response.status_code}")
-            print(response.text)
+            
+            if ( lxml.html.fromstring(response.text).find('.//*') == None ):
+                #print ("NOT HTML")
+                print(response.text)
+            else:
+                print ("HTML RESPONSE FOUND. Likely not insecure. Print first 20 chars")
+                print(response.text[:20])
+
         except:
             pass
 
@@ -59,13 +67,19 @@ def main():
             path = row['Path']
             method = row['Method']
             internetfacing = row['Internet Facing']
-            print(".... parsing row " +str(cnt))
-
+            
+            print(f"Hitting API {host} {path} with a {method} Counter: " + str(cnt))
+        
+        
             if "HTTPS" in internetfacing:
                 url = f"https://{host}{path}"
             else:
                 url = f"http://{host}{path}"
             send_request(url, method)
 
+
+
 if __name__ == '__main__':
     main()
+
+
