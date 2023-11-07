@@ -4,10 +4,14 @@
 # USING THIS SCRIPT COULD BE CONSIDERED PEN TESTING SO MAKE SURE YOU HAVE THE AUTHORITY IN
 # TO RUN THIS SCRIPT AGAINST THE ENDPOINTS IN CSV
 # Patrick McBrien 2023
-
-
 #
-#Instructions. 
+#Prereqs
+#install or update your python3
+#
+#pip3 install requests
+#pip3 install lxml
+#
+#Usage
 
 #1. Export nn api inventory into a csv file from the UI. You can do this by right clicking on the API inventory table and exporting the data to CSV format. 
 #2. Name the csv file hosts.csv and put it inside the same path as this python script
@@ -20,16 +24,16 @@ import csv
 import requests
 import lxml.html
 
+#Attack params
+get=1         #yes attack api's that are associated with GET requests
+post=0                   #yes attack api's that are associated with POST method api calls (use caution)
+delete=0                 #set to 1 to send HTTP delete's (this could delete data)
+put=0                    #set to 1 to put (this could place data)
+patch=0                  #set to 1 patch (this could alter data so test in lower environments)
+timeout = 6 #how many seconds before giving up on the api request
+
 def send_request(url, method):
 
-        timeout = 6 #how many seconds before giving up on the api request
-
-        #PLEASE CONFIGURE THIS SECTION
-        get=1 
-        post=0
-        delete=0 #set to 1 to send HTTP delete's (this could alter data)
-        put=0#set to 1 to put (this could alter data)
-        patch=0#set to 1 patch (this could alter data)
         
         headers = {"Content-Type": "charset=utf-8",
                     "Transfer-Encoding": "chunked",
@@ -56,7 +60,7 @@ def send_request(url, method):
                 #print ("NOT HTML")
                 print(response.text)
             else:
-                print ("HTML RESPONSE FOUND. Likely not insecure. Print first 20 chars")
+                print ("HTML returned. Skipping.")
                 print(response.text[:20])
 
         except:
@@ -75,7 +79,6 @@ def main():
             internetfacing = row['Internet Facing']
             
             print(f"Hitting API {host} {path} with a {method} Counter: " + str(cnt))
-        
         
             if "HTTPS" in internetfacing:
                 url = f"https://{host}{path}"
