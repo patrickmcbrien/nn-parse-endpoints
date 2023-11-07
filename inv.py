@@ -3,13 +3,9 @@
 #
 # USING THIS SCRIPT COULD BE CONSIDERED PEN TESTING SO MAKE SURE YOU HAVE THE AUTHORITY IN
 # TO RUN THIS SCRIPT AGAINST THE ENDPOINTS IN CSV
-#
-#Any of these could alter data especially the DELETE/PUT/PATCH
-#
-#
 # Patrick McBrien 2023
 
-#EXPECTED HEADER COLUMNS IN CSV ARE \ufeff"Host", Path, Method.
+
 #
 #Instructions. 
 
@@ -18,15 +14,18 @@
 #3. Turn on "GET,POST,DELETE" or any other http methods you want to include in your attack. (be careful attacking production endpoints, it could destroy / alter data)
 #4. run the script usually python3 inv.py or something similar
 
+#EXPECTED HEADER COLUMNS IN CSV ARE \ufeff"Host", Path, Method. Note the special character starting with \u.
+
 import csv
 import requests
 import lxml.html
 
 def send_request(url, method):
 
-        timeout = 3
+        timeout = 6 #how many seconds before giving up on the api request
 
-        get=1
+        #PLEASE CONFIGURE THIS SECTION
+        get=1 
         post=0
         delete=0 #set to 1 to send HTTP delete's (this could alter data)
         put=0#set to 1 to put (this could alter data)
