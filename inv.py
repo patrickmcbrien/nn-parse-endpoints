@@ -10,6 +10,13 @@
 # Patrick McBrien 2023
 
 #EXPECTED HEADER COLUMNS IN CSV ARE \ufeff"Host", Path, Method.
+#
+#Instructions. 
+
+#1. Export nn api inventory into a csv file from the UI. You can do this by right clicking on the API inventory table and exporting the data to CSV format. 
+#2. Name the csv file hosts.csv and put it inside the same path as this python script
+#3. Turn on "GET,POST,DELETE" or any other http methods you want to include in your attack. (be careful attacking production endpoints, it could destroy / alter data)
+#4. run the script usually python3 inv.py or something similar
 
 import csv
 import requests
